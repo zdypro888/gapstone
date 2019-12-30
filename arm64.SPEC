@@ -6,7 +6,7 @@ Disasm:
 	op_count: 2
 		operands[0].type: REG = x9
 		operands[0].access: READ | WRITE
-		operands[1].type: REG_MRS = 0xc000
+		operands[1].type: SYS = 0xc000
 		operands[1].access: READ | WRITE
 	Registers read: x9
 	Registers modified: x9
@@ -22,7 +22,7 @@ Disasm:
 
 0x34:	msr	dbgdtrtx_el0, x12
 	op_count: 2
-		operands[0].type: REG_MSR = 0x9828
+		operands[0].type: SYS = 0x9828
 		operands[0].access: READ | WRITE
 		operands[1].type: REG = x12
 		operands[1].access: READ | WRITE
@@ -33,18 +33,18 @@ Disasm:
 	op_count: 5
 		operands[0].type: REG = v0
 		operands[0].access: READ | WRITE
-			Vector Arrangement Specifier: 0x1
+			Vector Arrangement Specifier: 0x2
 		operands[1].type: REG = v1
 		operands[1].access: READ
-			Vector Arrangement Specifier: 0x2
+			Vector Arrangement Specifier: 0x1
 		operands[2].type: REG = v2
 		operands[2].access: READ
-			Vector Arrangement Specifier: 0x2
+			Vector Arrangement Specifier: 0x1
 		operands[3].type: REG = v3
 		operands[3].access: READ
-			Vector Arrangement Specifier: 0x2
-		operands[4].type: REG = v2
 			Vector Arrangement Specifier: 0x1
+		operands[4].type: REG = v2
+			Vector Arrangement Specifier: 0x2
 	Registers read: v0 v1 v2 v3
 	Registers modified: v0
 
@@ -52,10 +52,10 @@ Disasm:
 	op_count: 3
 		operands[0].type: REG = v0
 		operands[0].access: WRITE
-			Vector Arrangement Specifier: 0x5
+			Vector Arrangement Specifier: 0xa
 		operands[1].type: REG = v1
 		operands[1].access: READ
-			Vector Arrangement Specifier: 0x5
+			Vector Arrangement Specifier: 0xa
 		operands[2].type: IMM = 0x3
 		operands[2].access: READ
 	Registers read: v1
@@ -69,7 +69,7 @@ Disasm:
 		operands[1].access: READ
 		operands[2].type: REG = v0
 		operands[2].access: READ
-			Vector Element Size Specifier: 3
+			Vector Arrangement Specifier: 0xb
 			Vector Index: 3
 	Registers read: s0 v0
 	Registers modified: s0
@@ -80,7 +80,6 @@ Disasm:
 		operands[0].access: WRITE
 		operands[1].type: REG = v5
 		operands[1].access: READ
-			Vector Element Size Specifier: 4
 			Vector Index: 1
 	Registers read: v5
 	Registers modified: x2

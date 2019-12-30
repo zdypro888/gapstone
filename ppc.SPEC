@@ -9,18 +9,15 @@ Disasm:
 
 0x1004:	bdztla	4*cr5+eq, 0xffffffffffffff14
 	op_count: 2
-		operands[0].type: CRX
-			operands[0].crx.scale: 4
-			operands[0].crx.reg: cr5
-			operands[0].crx.cond: eq
+		operands[0].type: REG = cr5eq
 		operands[1].type: IMM = 0xffffffffffffff14
+	Branch code: 76
 	Branch hint: 1
 
 0x1008:	lwz	r1, 0(0)
 	op_count: 2
 		operands[0].type: REG = r1
 		operands[1].type: MEM
-			operands[1].mem.base: REG = r0
 
 0x100c:	lwz	r1, 0(r31)
 	op_count: 2
@@ -41,11 +38,11 @@ Disasm:
 			operands[1].mem.base: REG = r4
 			operands[1].mem.disp: 0x80
 
-0x1018:	crand	2, 3, 4
+0x1018:	crand	cr0eq, cr0un, cr1lt
 	op_count: 3
-		operands[0].type: REG = r2
-		operands[1].type: REG = r3
-		operands[2].type: REG = r4
+		operands[0].type: REG = cr0eq
+		operands[1].type: REG = cr0un
+		operands[2].type: REG = cr1lt
 
 0x101c:	cmpwi	cr2, r3, 0x80
 	op_count: 3

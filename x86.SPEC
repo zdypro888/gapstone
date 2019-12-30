@@ -230,13 +230,9 @@ Disasm:
 			operands[0].mem.base: REG = bx
 			operands[0].mem.index: REG = di
 		operands[0].size: 1
-		operands[0].access: READ
 		operands[1].type: REG = bh
 		operands[1].size: 1
-		operands[1].access: READ
-	Registers read: bx di bh
-	Registers modified: flags
-	EFLAGS: MOD_SF MOD_ZF MOD_PF RESET_OF RESET_CF UNDEF_AF
+	Registers read: bx di
 
 0x101d:	mov	word ptr [bx], sp
 	Prefix:0x00 0x00 0x00 0x00 
@@ -350,6 +346,7 @@ Disasm:
 			operands[0].mem.base: REG = eax
 			operands[0].mem.disp: 0x123
 		operands[0].size: 2
+		operands[0].access: READ
 	Registers read: eax
 
 0x1036:	call	0x1107
@@ -631,6 +628,7 @@ Disasm:
 			operands[0].mem.base: REG = eax
 			operands[0].mem.disp: 0x123
 		operands[0].size: 4
+		operands[0].access: READ
 	Registers read: eax
 
 0x1034:	calll	0xdeadcf18
@@ -914,6 +912,7 @@ Disasm:
 			operands[0].mem.base: REG = eax
 			operands[0].mem.disp: 0x123
 		operands[0].size: 4
+		operands[0].access: READ
 	Registers read: eax
 
 0x1034:	call	0xdeadcf18
@@ -1028,6 +1027,7 @@ Disasm:
 			operands[0].mem.base: REG = rip
 			operands[0].mem.disp: 0x123
 		operands[0].size: 8
+		operands[0].access: READ
 	Registers read: rip
 
 0x1013:	call	0xffffffffdeadcef7

@@ -399,7 +399,7 @@ Disasm:
 
 0x80001014:	msr	cpsr_fc, r6
 	op_count: 2
-		operands[0].type: SYSREG = 144
+		operands[0].type: SYSREG = 9
 		operands[1].type: REG = r6
 		operands[1].access: READ
 	Registers read: r6
@@ -458,7 +458,7 @@ Disasm:
 		operands[0].access: WRITE
 		operands[1].type: REG = s1
 		operands[1].access: READ
-	Vector-data: 17
+	Vector-data: 18
 	Registers read: s1
 	Registers modified: d3
 
