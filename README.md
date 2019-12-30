@@ -6,7 +6,14 @@ Gapstone is a Go binding for the Capstone disassembly library.
 ## CURRENT UPSTREAM VERSION: 4.0.1
 [![Build Status](https://travis-ci.org/knightsc/gapstone.svg?branch=master)](https://travis-ci.org/knightsc/gapstone)
 
-(head over to the next branch for the newest stuff)
+next branch at:
+```
+commit aaffb38c44fa58f510ba9b6264f7079bfbba4c8e
+Author: Richard Henderson <rth@twiddle.net>
+Date:   Mon Dec 23 02:30:58 2019 -1000
+
+    Constify backends (#1549)
+```
 
 SUMMARY
 ===
