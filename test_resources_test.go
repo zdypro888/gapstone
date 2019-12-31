@@ -17,7 +17,7 @@ import (
 
 // Maintain the expected version and sanity checks manually, so we can verify
 // against the installed C lib. Not foolproof, but should save 90% of accidents
-const expectedMaj = 4
+const expectedMaj = 5
 const expectedMin = 0
 
 type sanityCheck struct {
@@ -36,13 +36,13 @@ func (s *sanityChecks) Min() int { return expectedMin }
 // disassembly capstone expects to provide.
 var checks = sanityChecks{
 	CS_ARCH_ARM64: sanityCheck{
-		regMax: 260,
-		insMax: 454,
-		grpMax: 132,
+		regMax: 309,
+		insMax: 950,
+		grpMax: 145,
 	},
 	CS_ARCH_ARM: sanityCheck{
 		regMax: 111,
-		insMax: 433,
+		insMax: 472,
 		grpMax: 160,
 	},
 	CS_ARCH_MIPS: sanityCheck{
@@ -51,8 +51,8 @@ var checks = sanityChecks{
 		grpMax: 161,
 	},
 	CS_ARCH_PPC: sanityCheck{
-		regMax: 210,
-		insMax: 1110,
+		regMax: 344,
+		insMax: 1689,
 		grpMax: 142,
 	},
 	CS_ARCH_SPARC: sanityCheck{
@@ -61,13 +61,13 @@ var checks = sanityChecks{
 		grpMax: 135,
 	},
 	CS_ARCH_SYSZ: sanityCheck{
-		regMax: 35,
-		insMax: 682,
-		grpMax: 133,
+		regMax: 117,
+		insMax: 2346,
+		grpMax: 157,
 	},
 	CS_ARCH_X86: sanityCheck{
-		regMax: 242,
-		insMax: 1501,
+		regMax: 246,
+		insMax: 1524,
 		grpMax: 170,
 	},
 	CS_ARCH_XCORE: sanityCheck{
@@ -140,6 +140,11 @@ var basicM68KCode = "\xd4\x40\x87\x5a\x4e\x71\x02\xb4\xc0\xde\xc0\xde\x5c\x00\x1
 var basicTMS320C64XCode = "\x01\xac\x88\x40\x81\xac\x88\x43\x00\x00\x00\x00\x02\x90\x32\x96\x02\x80\x46\x9e\x05\x3c\x83\xe6\x0b\x0c\x8b\x24"
 var basicM680XCode = "\x06\x10\x19\x1a\x55\x1e\x01\x23\xe9\x31\x06\x34\x55\xa6\x81\xa7\x89\x7f\xff\xa6\x9d\x10\x00\xa7\x91\xa6\x9f\x10\x00\x11\xac\x99\x10\x00\x39"
 var basicEVMCode = "\x60\x61"
+var basicWASMCode = "\x20\x00\x20\x01\x41\x20\x10\xc9\x01\x45\x0b"
+var basicMOS65XXCode = "\x0d\x34\x12\x00\x81\x65\x6c\x01\x00\x85\xff\x10\x00\x19\x42\x42\x00\x49\x42"
+var basicEBPFCode = "\x97\x09\x00\x00\x37\x13\x03\x00\xdc\x02\x00\x00\x20\x00\x00\x00\x30\x00\x00\x00\x00\x00\x00\x00\xdb\x3a\x00\x01\x00\x00\x00\x00\x84\x02\x00\x00\x00\x00\x00\x00\x6d\x33\x17\x02\x00\x00\x00\x00"
+var basicRISCV32Code = "\x37\x34\x00\x00\x97\x82\x00\x00\xef\x00\x80\x00\xef\xf0\x1f\xff\xe7\x00\x45\x00\xe7\x00\xc0\xff\x63\x05\x41\x00\xe3\x9d\x61\xfe\x63\xca\x93\x00\x63\x53\xb5\x00\x63\x65\xd6\x00\x63\x76\xf7\x00\x03\x88\x18\x00\x03\x99\x49\x00\x03\xaa\x6a\x00\x03\xcb\x2b\x01\x03\xdc\x8c\x01\x23\x86\xad\x03\x23\x9a\xce\x03\x23\x8f\xef\x01\x93\x00\xe0\x00\x13\xa1\x01\x01\x13\xb2\x02\x7d\x13\xc3\x03\xdd\x13\xe4\xc4\x12\x13\xf5\x85\x0c\x13\x96\xe6\x01\x13\xd7\x97\x01\x13\xd8\xf8\x40\x33\x89\x49\x01\xb3\x0a\x7b\x41\x33\xac\xac\x01\xb3\x3d\xde\x01\x33\xd2\x62\x40\xb3\x43\x94\x00\x33\xe5\xc5\x00\xb3\x76\xf7\x00\xb3\x54\x39\x01\xb3\x50\x31\x00\x33\x9f\x0f\x00"
+var basicRISCV64Code = "\x13\x04\xa8\x7a"
 
 var detailX86Code16 = "\x8d\x4c\x32\x08\x01\xd8\x81\xc6\x34\x12\x00\x00"
 var detailX86Code32 = "\x8d\x4c\x32\x08\x01\xd8\x81\xc6\x34\x12\x00\x00"
@@ -163,6 +168,8 @@ var detailSysZCode = "\xed\x00\x00\x00\x00\x1a\x5a\x0f\x1f\xff\xc2\x09\x80\x00\x
 var detailXcoreCode = "\xfe\x0f\xfe\x17\x13\x17\xc6\xfe\xec\x17\x97\xf8\xec\x4f\x1f\xfd\xec\x37\x07\xf2\x45\x5b\xf9\xfa\x02\x06\x1b\x10"
 var detailM68KCode = "\xd4\x40\x87\x5a\x4e\x71\x02\xb4\xc0\xde\xc0\xde\x5c\x00\x1d\x80\x71\x12\x01\x23\xf2\x3c\x44\x22\x40\x49\x0e\x56\x54\xc5\xf2\x3c\x44\x00\x44\x7a\x00\x00\xf2\x00\x0a\x28"
 var detailM680XCode = "\x06\x10\x19\x1a\x55\x1e\x01\x23\xe9\x31\x06\x34\x55\xa6\x81\xa7\x89\x7f\xff\xa6\x9d\x10\x00\xa7\x91\xa6\x9f\x10\x00\x11\xac\x99\x10\x00\x39"
+var detailMOS65XXCode = "\x0A\x00\xFE\x34\x12\xD0\xFF\xEA\x19\x56\x34\x46\x80"
+var detailEBPFCode = "\x97\x09\x00\x00\x37\x13\x03\x00\xdc\x02\x00\x00\x20\x00\x00\x00\x30\x00\x00\x00\x00\x00\x00\x00\xdb\x3a\x00\x01\x00\x00\x00\x00\x84\x02\x00\x00\x00\x00\x00\x00\x6d\x33\x17\x02\x00\x00\x00\x00"
 
 var basicTests = platforms{
 	{
@@ -277,30 +284,27 @@ var basicTests = platforms{
 		basicArm64Code,
 		"ARM-64",
 	},
-	/*
-		Temporarily disabled. See https://github.com/aquynh/capstone/pull/1361
-		platform{
-			CS_ARCH_PPC,
-			CS_MODE_BIG_ENDIAN,
-			[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
-			basicPPCCode,
-			"PPC-64",
-		},
-		platform{
-			CS_ARCH_PPC,
-			CS_MODE_BIG_ENDIAN,
-			[]option{{CS_OPT_DETAIL, CS_OPT_ON}, {CS_OPT_SYNTAX, CS_OPT_SYNTAX_NOREGNAME}},
-			basicPPCCode,
-			"PPC-64, print register with number only",
-		},
-		platform{
-			CS_ARCH_PPC,
-			CS_MODE_BIG_ENDIAN + CS_MODE_QPX,
-			[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
-			basicPPCCode2,
-			"PPC-64 + QPX",
-		},
-	*/
+	platform{
+		CS_ARCH_PPC,
+		CS_MODE_BIG_ENDIAN,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		basicPPCCode,
+		"PPC-64",
+	},
+	platform{
+		CS_ARCH_PPC,
+		CS_MODE_BIG_ENDIAN,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}, {CS_OPT_SYNTAX, CS_OPT_SYNTAX_NOREGNAME}},
+		basicPPCCode,
+		"PPC-64, print register with number only",
+	},
+	platform{
+		CS_ARCH_PPC,
+		CS_MODE_BIG_ENDIAN + CS_MODE_QPX,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		basicPPCCode2,
+		"PPC-64 + QPX",
+	},
 	platform{
 		CS_ARCH_SPARC,
 		CS_MODE_BIG_ENDIAN,
@@ -356,6 +360,41 @@ var basicTests = platforms{
 		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
 		basicEVMCode,
 		"EVM",
+	},
+	platform{
+		CS_ARCH_WASM,
+		0,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		basicWASMCode,
+		"WASM",
+	},
+	platform{
+		CS_ARCH_MOS65XX,
+		0,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		basicMOS65XXCode,
+		"MOS65XX",
+	},
+	platform{
+		CS_ARCH_BPF,
+		CS_MODE_LITTLE_ENDIAN + CS_MODE_BPF_EXTENDED,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		basicEBPFCode,
+		"eBPF",
+	},
+	platform{
+		CS_ARCH_RISCV,
+		CS_MODE_RISCV32,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		basicRISCV32Code,
+		"RISCV32",
+	},
+	platform{
+		CS_ARCH_RISCV,
+		CS_MODE_RISCV64,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		basicRISCV64Code,
+		"RISCV64",
 	},
 }
 
@@ -468,23 +507,20 @@ var detailTests = platforms{
 		detailArm64Code,
 		"ARM-64",
 	},
-	/*
-		Temporarily disabled. See https://github.com/aquynh/capstone/pull/1361
-		platform{
-			CS_ARCH_PPC,
-			CS_MODE_BIG_ENDIAN,
-			[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
-			detailPPCCode,
-			"PPC-64",
-		},
-		platform{
-			CS_ARCH_PPC,
-			CS_MODE_BIG_ENDIAN + CS_MODE_QPX,
-			[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
-			detailPPCCode2,
-			"PPC-64 + QPX",
-		},
-	*/
+	platform{
+		CS_ARCH_PPC,
+		CS_MODE_BIG_ENDIAN,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		detailPPCCode,
+		"PPC-64",
+	},
+	platform{
+		CS_ARCH_PPC,
+		CS_MODE_BIG_ENDIAN + CS_MODE_QPX,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		detailPPCCode2,
+		"PPC-64 + QPX",
+	},
 	platform{
 		CS_ARCH_SPARC,
 		CS_MODE_BIG_ENDIAN,
@@ -526,6 +562,20 @@ var detailTests = platforms{
 		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
 		detailM680XCode,
 		"M680X_M6809",
+	},
+	platform{
+		CS_ARCH_MOS65XX,
+		0,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		detailMOS65XXCode,
+		"MOS65XX",
+	},
+	platform{
+		CS_ARCH_BPF,
+		CS_MODE_LITTLE_ENDIAN + CS_MODE_BPF_EXTENDED,
+		[]option{{CS_OPT_DETAIL, CS_OPT_ON}},
+		detailEBPFCode,
+		"eBPF",
 	},
 }
 
