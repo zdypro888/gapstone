@@ -10,9 +10,6 @@ try reading the *_test.go files.
 
 package gapstone
 
-// #cgo LDFLAGS: -lcapstone
-// #cgo freebsd CFLAGS: -I/usr/local/include
-// #cgo freebsd LDFLAGS: -L/usr/local/lib
 // #include <stdlib.h>
 // #include <capstone/capstone.h>
 import "C"
@@ -109,7 +106,6 @@ func fillArm64Header(raw C.cs_insn, insn *Instruction) {
 			Ext:         uint(cop.ext),
 			VectorIndex: int(cop.vector_index),
 			Vas:         int(cop.vas),
-			Vess:        int(cop.vess),
 			Access:      uint(cop.access),
 		}
 

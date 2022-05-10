@@ -1,3 +1,4 @@
+//go:build go1.7
 // +build go1.7
 
 /*
@@ -12,9 +13,6 @@ try reading the *_test.go files.
 
 package gapstone
 
-// #cgo LDFLAGS: -lcapstone
-// #cgo freebsd CFLAGS: -I/usr/local/include
-// #cgo freebsd LDFLAGS: -L/usr/local/lib
 // #include <stdlib.h>
 // #include <capstone/capstone.h>
 import "C"

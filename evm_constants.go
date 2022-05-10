@@ -8,16 +8,14 @@ try reading the *_test.go files.
     (c) 2013 COSEINC. All Rights Reserved.
 
     THIS FILE WAS AUTO-GENERATED -- DO NOT EDIT!
-	Command: ./genconst ../capstone/bindings/python/capstone/
-	2021-10-14T08:50:33-04:00
+	Command: ./genconst /Users/zdypro/Documents/projects/src/capstone/bindings/python/capstone
+	2022-05-10T18:09:36+08:00
 
 */
 
 package gapstone
 
-// #cgo LDFLAGS: -lcapstone
-// #cgo freebsd CFLAGS: -I/usr/local/include
-// #cgo freebsd LDFLAGS: -L/usr/local/lib
+
 // #include <stdlib.h>
 // #include <capstone/capstone.h>
 import "C"
